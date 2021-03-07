@@ -13,6 +13,7 @@ public class Coordenada {
 		
 	}
 
+	//Mover coordenadas
 	public Coordenada up() {
 		return new Coordenada( column,row + 1);
 	}

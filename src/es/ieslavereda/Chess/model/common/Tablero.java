@@ -20,7 +20,9 @@ public class Tablero {
 		negrasEliminadas = new Lista<>();
 		inicializar();
 	}
-
+	
+	//Inicializa el tablero (Añadiendo las fichas)
+	
 	private void inicializar() {
 
 		// Inicializamos el tablero
@@ -59,9 +61,13 @@ public class Tablero {
 	
 	}
 	
+	//Si la coordenada se encuentra dentro del tablero
+	
 	public boolean contiene(Coordenada c) {
 		return !(c.getRow()>8 || c.getRow()<1 || c.getColumn()<'A' || c.getColumn()>'H');
 	}
+	
+	//Devuelve la pieza de x coordenada
 	
 	public Pieza getPiezaAt(Coordenada c) {
 		if(!contiene(c))
@@ -91,7 +97,57 @@ public class Tablero {
 		
 	}
 	
+	//Comprueba segun el color si hay jacke o no
 	
+	public boolean checkHacke(Color turn) {
+		
+		Pieza nexo = null;
+		
+		boolean check = false;
+		
+		if(turn == Color.WHITE) {
+			
+			for(int i = 0; i<negras.getSize(); i++) {
+				
+				nexo = negras.get(i);
+
+				for(int j = 0; j<nexo.getNextMovements().getSize(); j++) {
+					
+				
+					if(whiteKing.posicion.equals(nexo.getNextMovements().get(j))) {
+						
+						check = true;
+						
+					}	
+				}	
+			}
+			
+			
+		}else {
+			
+			for(int i = 0; i<blancas.getSize(); i++) {
+				
+				nexo = blancas.get(i);
+
+				for(int j = 0; j<nexo.getNextMovements().getSize(); j++) {
+					
+				
+					if(blackKing.posicion.equals(nexo.getNextMovements().get(j))) {
+						
+						check = true;
+						
+					}	
+				}	
+			}
+			
+		
+			
+		}
+		
+		return check;
+	}
+	
+	//Elimina una pieza y la añade a piezas eliminadas
 
 	public void eliminarPieza(Pieza p) {
 		
@@ -102,6 +158,8 @@ public class Tablero {
 			negrasEliminadas.addHead(negras.getAndRemove(p));
 			
 	}
+	
+	//Comprueba si el rey esta vivo
 	
 	public boolean blackKingIsAlive() {
 		
@@ -115,6 +173,8 @@ public class Tablero {
 			
 	}
 
+	//Devuelve la celda de x coordenada
+	
 	public Celda getCeldaAt(Coordenada c) {
 		
 		if(contiene(c))
@@ -123,6 +183,8 @@ public class Tablero {
 		return null;
 	}
 
+	//Imprime por pantalla el tablero según el color
+	
 	public String print(Color color) {
 		
 		switch (color) {
@@ -132,7 +194,9 @@ public class Tablero {
 			return printAsBlack();
 		}
 	}
-
+	
+	//Imprime por pantalla el tablero negro
+	
 	private String printAsBlack() {
 		 
 		String salida = "Blancas: " + negrasEliminadas.getInfo()+"\n";
@@ -150,7 +214,9 @@ public class Tablero {
 
 		return salida;
 	}
-
+	
+	//Imprime por pantalla el tablero blanco
+	
 	private String printAsWhite() {
 		String salida ="Negras: " + blancasEliminadas.getInfo()+"\n";
 		salida+=	   "\n          A   B   C   D   E   F   G   H\n";
@@ -170,6 +236,8 @@ public class Tablero {
 		
 		return salida;
 	}
+	
+	//Imprime partes del tablero
 	
 	private String obtenerParteSuperior() {
 

@@ -12,27 +12,21 @@ public class Game {
 		start();
 		
 	}
-
+	
+	//Mecánicas del juego
+	
 	private void start() {
 	
 		System.out.println("Let's go!!");
 		
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e1) {
-			e1.printStackTrace();
-		}
+		pause(3000);
 		
 		Color turn = Color.WHITE;
-		
-	
-		
+				
 		do {
-			
-			System.out.println(board.print(turn));
-			
+					
 			switch(turn) {
-			
+		
 				case WHITE: System.out.println("Turno de las Blancas");
 							movePiece(turn);
 							break;
@@ -43,8 +37,9 @@ public class Game {
 			}
 			
 			turn = Color.values()[(turn.ordinal() + 1) % Color.values().length];
-	
 			
+			pause(600);
+			update();
 			
 			
 		}while(board.whiteKingIsAlive() && board.blackKingIsAlive());
@@ -56,17 +51,44 @@ public class Game {
 			System.out.println(Color.BLACK + " wins.");
 	
 	}
+	
+	//Comprueba si hay jacke
+	
+	private void check(Color turn) {
+		
+		if(turn == Color.WHITE) {
+			
+			if(board.checkHacke(turn)) {
+				
+				System.out.println("HACKE AL BLANCO");
+				
+			}
+			
+		}else {
+			
+			if(board.checkHacke(turn)) {
+				
+				System.out.println("HACKE AL NEGRO");
+				
+			}
+		}		
+	}
 
+	//Mueve una pieza
+	
 	private void movePiece(Color turn) {
 		
+	
 		Coordenada c;
 		Pieza p;
 		
 		boolean moved = false;
 		
 		do {
-			
+			System.out.println(board.print(turn));
+			check(turn);
 			c = askCoord(); 
+			update();
 			
 			if(board.getPiezaAt(c) != null) {
 				
@@ -80,7 +102,7 @@ public class Game {
 					System.out.println(p.getNextMovements());
 					
 					if(!p.getNextMovements().isEmpty()) {
-					
+						
 						System.out.println("Donde quieres mover? ");
 						c = askCoord();
 						
@@ -88,7 +110,6 @@ public class Game {
 						
 							if(board.getPiezaAt(c) != null) {
 								
-								System.out.println("Ficha eliminada: " + board.getPiezaAt(c));
 								p.moveTo(c);
 								moved = true;
 								System.out.println("Ficha movida");
@@ -100,20 +121,28 @@ public class Game {
 								System.out.println("Ficha movida");
 								
 							}
-						}				
-					}else
+						}
 						
+					}else 						
 						System.out.println("No tienes movimientos posibles");
-				}else
-					
+	
+				}else 					
 					System.out.println("No existe esa coordenada o estas eligiendo el color equivocado");
+				
 
-			}else System.out.println("Esta vacio");
+			}else 				
+				System.out.println("Esta vacio");
+				
+			
 			
 		}while(!moved);
 		
+		
+		
 	}
 
+	//Pregunta por la coordenada
+	
 	private Coordenada askCoord() {
 		
 		Scanner sc = new Scanner(System.in);
@@ -122,12 +151,32 @@ public class Game {
 		int fil;
 		
 		System.out.println("Introduce la letra de la coord");
-		col = sc.next().charAt(0);
+		col = Character.toUpperCase(sc.next().charAt(0));
 		
 		System.out.println("Introduce el numero de la coord");
 		fil = sc.nextInt();
 		
 		return new Coordenada(col,fil);
+	}
+	
+	//Tiempo de espera
+	
+	private void pause(int i) {
+		
+		try {
+			Thread.sleep(i);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}		
+	}
+	
+	//Limpia la consola
+	
+	private void update() {
+		
+		System.out.print("\033[H\033[2J");
+		System.out.flush();
+		
 	}
 	
 }

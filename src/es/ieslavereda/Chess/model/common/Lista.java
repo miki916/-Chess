@@ -152,10 +152,7 @@ public class Lista<T> {
 				i++;
 			}
 
-			aux.getAnterior().setSiguiente(aux.getSiguiente());
-			aux.getSiguiente().setAnterior(aux.getAnterior());
-			size--;
-
+		
 			return aux.getInfo();
 
 		} else

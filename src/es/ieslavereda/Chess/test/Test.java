@@ -9,11 +9,7 @@ public class Test {
 		
 		Tablero t = new Tablero();
 		Game game = new Game(t);
-//		Coordenada c = new Coordenada('A',1);
-//
-//		t.getBlancasEliminadas().addHead(t.getBlancas().getAndRemove(t.getPiezaAt(c)));
-//		
-//		System.out.println(t.getBlancasEliminadas());
+		
 	}
 
 }
